@@ -18,8 +18,7 @@ int main(void) {
     double complex result = z_transform(sequence, sequence_length, z_point);
     
     /* Print the result */
-    printf("Z-transform at z = %.1f%+.1fi:\n", creal(z_point), cimag(z_point));
-    printf("X(z) = %.4f%+.4fi\n", creal(result), cimag(result));
+    printf("X(z) = %.4f%+.6fi\n", creal(result), cimag(result));
     
     return EXIT_SUCCESS;
 }
