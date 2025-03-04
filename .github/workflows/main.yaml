@@ -33,13 +33,11 @@ jobs:
       - name: Build Project
         run: |
             make
-        working-directory: ./ztransform_project
 
       # 4. Run the example and verify the output
       - name: Run Example
         run: |
             make run
-        working-directory: ./ztransform_project
 
       # 5. (Optional) Verify the output of the example
       - name: Verify Output
@@ -52,4 +50,3 @@ jobs:
             else
                 echo "Success: Output matches expected value"
             fi
-        working-directory: ./ztransform_project
