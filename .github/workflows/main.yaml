@@ -1,0 +1,55 @@
+name: CI for Z-Transform Module
+
+# Events that trigger the workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Workflow jobs
+jobs:
+  build-and-test:
+    # Job name
+    name: Build and Test
+    # Operating systems where it will run (you can add more like windows-latest or macos-latest)
+    runs-on: ubuntu-latest
+
+    # Job steps
+    steps:
+      # 1. Clone the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Install dependencies (GCC and necessary tools)
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc
+
+      # 3. Build the project using the Makefile
+      - name: Build Project
+        run: |
+            make
+        working-directory: ./ztransform_project
+
+      # 4. Run the example and verify the output
+      - name: Run Example
+        run: |
+            make run
+        working-directory: ./ztransform_project
+
+      # 5. (Optional) Verify the output of the example
+      - name: Verify Output
+        run: |
+            OUTPUT=$(./build/main)
+            EXPECTED="X(z) = 5.000000 + 0.000000i"
+            if [ "$OUTPUT" != "$EXPECTED" ]; then
+                echo "Error: Expected '$EXPECTED', but got '$OUTPUT'"
+                exit 1
+            else
+                echo "Success: Output matches expected value"
+            fi
+        working-directory: ./ztransform_project
