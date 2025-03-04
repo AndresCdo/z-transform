@@ -6,28 +6,29 @@ LIB = lib/libztransform.a
 OBJ = build/ztransform.o
 EXAMPLE = build/main
 
-# Reglas
+# Rules
 all: $(LIB) $(EXAMPLE)
 
-# Crear la biblioteca estática
+# Create the static library
 $(LIB): $(OBJ)
+	@mkdir -p lib
 	ar rcs $@ $^
 
-# Compilar el archivo objeto
+# Compile the object file
 $(OBJ): src/ztransform.c include/ztransform.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compilar el ejemplo
+# Compile the example
 $(EXAMPLE): examples/main.c $(LIB)
 	@mkdir -p build
 	$(CC) $(CFLAGS) $< -Llib -lztransform $(LDFLAGS) -o $@
 
-# Limpiar archivos generados
+# Clean generated files
 clean:
 	rm -rf build/* lib/*
 
-# Ejecutar el ejemplo
+# Run the example
 run: $(EXAMPLE)
 	./$(EXAMPLE)
 
